@@ -58,8 +58,6 @@ bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get
     uint8_t * output_ptr;
     uint8_t * temp_ptr;
   
-//    printf("%s\n", __func__ );
-
     // allocate memory for the shuffle array
     space_ptr = calloc( num, size );
     if (!space_ptr)
@@ -74,7 +72,6 @@ bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get
     for (uint8_t byte = 0; byte < sizeof(uint64_t); byte++)
     {
         count256asc( output_ptr, input_ptr, byte, num, size, get_value );
-//        printArray( output_ptr, num, size );
         if ( byte <= sizeof(uint64_t)-1 )
         {
             // swap in and out pointers for next loop
