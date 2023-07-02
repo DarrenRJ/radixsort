@@ -5,22 +5,7 @@
 #include <string.h>
 #include <inttypes.h>
 
-// Print an array
-void printArray(uint8_t array[], size_t num_entries, uint8_t bytes ) 
-{
-    uint64_t value;
 
-    for (int i = 0; i < num_entries; i++) 
-    {
-        value = 0;
-        for (uint8_t j=0; j<bytes; j++)
-        {
-            value += (((uint64_t)array[(i*bytes) + j])<<8*j );
-        }
-        printf("%" PRIu64 ", ", value);
-    }
-    printf("\n");
-}
 
 // counting sort with 256 radix and associated data
 // dest_ptr output array
@@ -73,7 +58,7 @@ bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get
     uint8_t * output_ptr;
     uint8_t * temp_ptr;
   
-    printf("%s\n", __func__ );
+//    printf("%s\n", __func__ );
 
     // allocate memory for the shuffle array
     space_ptr = calloc( num, size );
@@ -111,38 +96,4 @@ bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get
     return true;
 }
 
-
-uint64_t get_value1( void * data_ptr )
-{
-    return *(uint16_t *)data_ptr;
-}
-
-uint64_t get_value2( void * data_ptr )
-{
-    return *(uint32_t *)data_ptr;
-}
-
-uint64_t get_value3( void * data_ptr )
-{
-    return *(uint64_t *)data_ptr;
-}
-
-// Driver code
-int main() 
-{
-    uint16_t array[] = {121, 432, 564, 23, 1, 45, 788, 1, 2, 3,4,5,8,13};
-    int n = sizeof(array) / sizeof(array[0]);
-    radix_sort_asc(array, n, sizeof(array[0]), get_value1);
-    printArray(array, n, sizeof(array[0]));
-
-    uint32_t array2[] = { 399999999, 4, 92, 65535, 4000000, 26000};
-    n = sizeof(array2)/sizeof(array2[0]);
-    radix_sort_asc(array2, n, sizeof(array2[0]), get_value2);
-    printArray(array2, n, sizeof(array2[0]));
-
-    uint64_t array3[] = { 57, 3000000221, 3751002, 4, 27, 3283 };
-    n = sizeof(array3)/sizeof(array3[0]);
-    radix_sort_asc(array3, n, sizeof(array3[0]), get_value3);
-    printArray(array3, n, sizeof(array3[0]));
-}
 
