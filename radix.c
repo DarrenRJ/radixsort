@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include <inttypes.h>
 
 // Print an array
 void printArray(uint8_t array[], size_t num_entries, uint8_t bytes ) 
@@ -14,9 +15,9 @@ void printArray(uint8_t array[], size_t num_entries, uint8_t bytes )
         value = 0;
         for (uint8_t j=0; j<bytes; j++)
         {
-            value += (array[(i*bytes) + j]<<8*j );
+            value += (((uint64_t)array[(i*bytes) + j])<<8*j );
         }
-        printf("%lu  ", value);
+        printf("%" PRIu64 ", ", value);
     }
     printf("\n");
 }
@@ -113,26 +114,35 @@ bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get
 
 uint64_t get_value1( void * data_ptr )
 {
-//    printf( "%s value = %u\n", __func__, *(uint16_t *)data_ptr );
     return *(uint16_t *)data_ptr;
 }
 
 uint64_t get_value2( void * data_ptr )
 {
-//    printf( "%s value = %u\n", __func__, *(uint32_t *)data_ptr );
     return *(uint32_t *)data_ptr;
 }
 
-// Driver code
-int main() {
-  uint16_t array[] = {121, 432, 564, 23, 1, 45, 788, 1, 2, 3,4,5,8,13};
-  int n = sizeof(array) / sizeof(array[0]);
-  radix_sort_asc(array, n, 2, get_value1);
-  printArray(array, n, sizeof(array[0]));
+uint64_t get_value3( void * data_ptr )
+{
+    return *(uint64_t *)data_ptr;
+}
 
-  uint32_t array2[] = { 399999999, 4, 92, 65535, 4000000, 26000};
-  n = sizeof(array2)/sizeof(array2[0]);
-  radix_sort_asc(array2, n, 4, get_value2);
-  printArray(array2, n, sizeof(array2[0]));
+// Driver code
+int main() 
+{
+    uint16_t array[] = {121, 432, 564, 23, 1, 45, 788, 1, 2, 3,4,5,8,13};
+    int n = sizeof(array) / sizeof(array[0]);
+    radix_sort_asc(array, n, sizeof(array[0]), get_value1);
+    printArray(array, n, sizeof(array[0]));
+
+    uint32_t array2[] = { 399999999, 4, 92, 65535, 4000000, 26000};
+    n = sizeof(array2)/sizeof(array2[0]);
+    radix_sort_asc(array2, n, sizeof(array2[0]), get_value2);
+    printArray(array2, n, sizeof(array2[0]));
+
+    uint64_t array3[] = { 57, 3000000221, 3751002, 4, 27, 3283 };
+    n = sizeof(array3)/sizeof(array3[0]);
+    radix_sort_asc(array3, n, sizeof(array3[0]), get_value3);
+    printArray(array3, n, sizeof(array3[0]));
 }
 
