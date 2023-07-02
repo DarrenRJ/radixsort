@@ -60,6 +60,11 @@ void count256asc( void * dest_ptr, void * src_ptr, uint8_t byte, size_t num, siz
 
 
 // do a radix sort with associated data
+// in_out_ptr pointer to the data to sort
+// num  the number of elements in the array
+// size the size in bytes of each element
+// get_value  callback function to get a value from an array element
+// return true on success, false on memeory allocation failure, can fallback to quicksort?
 bool radix_sort_asc( void * in_out_ptr, size_t num, size_t size, uint64_t (* get_value)( void * input ) )
 {
     uint8_t * space_ptr; 
